@@ -35,3 +35,11 @@ export type ControllerProps = ControlledProps &
 export interface OptionsProps {
   options: OptionType[];
 }
+
+export interface UltrasoundFormValues {
+  language: string;
+  type: string;
+  vowel: string;
+  consonant: string;
+  [key: string]: string;
+}
