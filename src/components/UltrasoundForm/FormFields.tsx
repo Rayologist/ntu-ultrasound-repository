@@ -1,15 +1,17 @@
-import { useEffect } from "react";
-import { Form, Formik, FormikHelpers, useFormikContext } from "formik";
-import * as Yup from "yup";
-import { UltrasoundFormValues as Values } from "types";
-import Fields from "./FormFields";
+import { ControllerProps } from "types";
+import FormikController from "@components/Formik/FormikController";
+import { Grid, Title, SelectItem } from "@mantine/core";
+import { useFormikContext } from "formik";
+import {
+  consonantMandarinOptions,
+  consonantSquliqOptions,
+  vowelMandarinOptions,
+  vowelSquliqOptions,
+  languageOptions,
+  typeOptions,
+} from "./Option";
 
-interface Values {
-  language: string;
-  type: string;
-  vowel: string;
-  consonant: string;
-}
+import { UltrasoundFormValues as Values } from "types";
 
 function handleOptions(language: string, type: string): SelectItem[] {
   switch (language) {
@@ -33,7 +35,7 @@ function handleOptions(language: string, type: string): SelectItem[] {
   }
 }
 
-function Fields() {
+export default function Fields() {
   const formik = useFormikContext<Values>();
 
   const fields: ControllerProps[] = [
@@ -116,40 +118,3 @@ function Fields() {
     </Grid>
   );
 }
-
-function UltrasoundForm() {
-  const initialValue: Values = {
-    language: "",
-    type: "",
-    vowel: "",
-    consonant: "",
-  };
-
-  const onSubmit = (values: Values, actions: FormikHelpers<Values>) => {
-    console.log(values);
-    setTimeout(() => actions.setSubmitting(false), 2000);
-  };
-
-  const validationSchema = Yup.object({
-    language: Yup.string().required("必填").nullable(),
-    type: Yup.string().required("必填"),
-    vowel: Yup.string().nullable(),
-    consonant: Yup.string().nullable(),
-  });
-
-  return (
-    <Formik
-      initialValues={initialValue}
-      onSubmit={onSubmit}
-      validationSchema={validationSchema}
-      enableReinitialize
-    >
-      <Form>
-        <Fields />
-        <Submit />
-      </Form>
-    </Formik>
-  );
-}
-
-export default UltrasoundForm;
